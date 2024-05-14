@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produkt hinzufügen</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/view_inventory.html">Lagerbestand</a></li>
+                <li><a href="/add_product.html" class="active">Produkt hinzufügen</a></li>
+                <li><a href="/create_offer.html">Angebot erstellen</a></li>
+            </ul>
+            <ul style="padding-top: 15px;">
+                <li><a href="/add_product.html" class="active2">Produkt hinzufügen</a></li>
+                <li><a href="/edit_product.html">Produkt bearbeiten</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="form-container">
+            <form action="/add_product.html" method="POST">
+                <label for="table_name">Kategorie:</label>
+                <select id="table_name" name="table_name" class="dropdown-menu">
+                    <option value="" {% if not selected_table_name %}selected{% endif %}>-- Kategorie wählen --</option>
+                    {% for table_name in table_names_list %}
+                        {% set display_name = table_name.split('_')[2:]|join('_')|replace('_', ' ') %}
+                        <option value="{{ table_name }}" {% if selected_table_name == table_name %}selected{% endif %}>{{ display_name }}</option>
+                    {% endfor %}
+                </select>                            
+                <div class="form-group">
+                    <label for="p_id">ID: *</label>
+                    <input type="text" id="p_id" name="p_id" value="{{ p_id }}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name: *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Menge: *</label>
+                    <input type="text" id="quantity" name="quantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="unit_price">Stückpreis: *</label>
+                    <input type="text" id="unit_price" name="unit_price" required>
+                </div>
+                <div class="form-group">
+                    <label for="size">Größe:</label>
+                    <input type="text" id="size" name="size" placeholder="---">
+                </div>
+                <div class="form-group">
+                    <label for="WbW">WbW:</label>
+                    <input type="text" id="WbW" name="WbW" placeholder="---">
+                </div>
+                <button type="submit" id="Button" name="Button">Produkt hinzufügen</button>
+            </form>
+        </div>
+        {% if message==True %}
+            <script>
+                window.alert("Produkt erfolgreich hinzugefügt")
+            </script>
+        {% endif %}
+    </main>
+    
+    <script>
+        document.getElementById('table_name').addEventListener('change', function() {
+            var selectedTable = this.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/generate_p_id?table_name=' + selectedTable, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                    var pIdInput = document.getElementById('p_id');
+                    pIdInput.value = xhr.responseText;
+                }
+            };
+            xhr.send();
+
+        });
+        </script>
+        
+    <footer>
+        <!-- Hier kommt der Footer, falls benötigt -->
+    </footer>
+</body>
+</html>

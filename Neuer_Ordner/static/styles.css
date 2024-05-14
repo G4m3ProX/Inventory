@@ -1,0 +1,184 @@
+/* Allgemeine Stile */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header-Stile */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    z-index: 1000;
+    top: 0;
+}
+
+/* Navigationsmenü-Stile */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffa500;
+}
+
+nav ul li a.active {
+    color: #ffa500; /* Farbe für aktive Seite */
+    font-weight: bold; /* Optional: Fettschrift für aktive Seite */
+}
+
+nav ul li a.active2 {
+    color: #ffa500; /* Farbe für aktive Seite */
+}
+
+/* Formular-Stile */
+main {
+    padding: 20px;
+}
+
+.form-container {
+    width: auto;
+    margin: auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.category-dropdown {
+    display: flex;
+    align-items: center;
+}
+
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Tabellencontainer */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto; /* Horizontale Scrollleiste anzeigen, wenn der Inhalt zu breit ist */
+}
+
+/* Tabellenkopf */
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f2f2f2;
+    height: 20px; /* Hier die Höhe des Tabellenkopfes anpassen */
+    z-index: 2; /* Stelle sicher, dass der Tabellenkopf über dem Inhalt liegt */
+    text-align: left; /* Textausrichtung auf links festlegen */
+    font-size: large;
+}
+
+/* Tabelleninhalt */
+th, td {
+    padding: 14px;
+    text-align: left; /* Textausrichtung auf links festlegen */
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}
+
+/* Individuelle Spaltenbreiten */
+th:first-child, td:first-child {
+    width: 3%;
+    max-width: 35px; /* Du kannst diesen Wert anpassen */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 4%;
+    max-width: 75px; /* Du kannst diesen Wert anpassen */
+    padding: 5px;
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: auto;
+}
+
+th:nth-child(4), td:nth-child(4),
+th:nth-child(5), td:nth-child(5),
+th:nth-child(6), td:nth-child(6),
+th:nth-child(7), td:nth-child(7) {
+    width: 8%;
+    max-width: 75px; /* Du kannst diesen Wert anpassen */
+}
+
+/* Alternierende Zeilenfarben */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+
+/* Dropdown-Menü */
+.dropdown-menu {
+    background-color: #f9f9f9;
+    color: #333;
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 200px; /* Breite des Dropdown-Menüs */
+    padding: 5px;
+}
+
+/* Optionen im Dropdown-Menü */
+.dropdown-menu option {
+    padding: 5px;
+}
+
+/* Hover-Effekt */
+.dropdown-menu option:hover {
+    background-color: #e0e0e0;
+    color: #555;
+}
+
+#selected_table_name p {
+    font-size: 20px;
+    font-weight: bold;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabellennamen</title>
+</head>
+<body>
+    <h1>Verfügbare Tabellen</h1>
+    <form>
+        <label for="categorySelect">Kategorie:</label>
+        <select id="categorySelect" name="categorySelect">
+            {% for table_name in table_names_list %}
+                <option value="{{ table_name }}">{{ table_name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+</body>
+</html>

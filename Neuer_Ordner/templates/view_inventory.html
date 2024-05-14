@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lagerbestand</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/view_inventory.html" class="active">Lagerbestand</a></li>
+                <li><a href="/add_product.html">Produkt hinzufügen</a></li>
+                <li><a href="/create_offer.html">Angebot erstellen</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="categorie-dropdown">
+        <form id="inventory_form" method="GET" action="/view_inventory.html">
+            <label for="table_name">Kategorie:</label>
+            <select id="table_name" name="table_name" class="dropdown-menu">
+                <option value="" {% if not selected_table_name %}selected{% endif %}>-- Alle --</option>
+                {% for table_name in table_names_list %}
+                    {% set display_name = table_name.split('_')[2:]|join('_')|replace('_', ' ') %}
+                    <option value="{{ table_name }}" {% if selected_table_name == table_name %}selected{% endif %}>{{ display_name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+        </div>
+        
+        <div id="selected_table_name">
+            {% if not selected_table_name== None %}
+                <p>{{ selected_table_name }}</p>            
+            {% endif %}
+        </div>
+        
+     
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Bild</th>
+                    <th>Name</th>
+                    <th>Größe</th>
+                    <th>Menge</th>
+                    <th>Preis</th>                    
+                    <th>WbW</th>
+                </tr>
+            </thead> 
+        </table>
+    
+
+        <div id="inventory_container", class="table-body-container">
+           
+            {% include 'inventory_table.html' %}
+            
+        </div>
+    </main>
+    
+        
+
+  
+    <script>
+        document.getElementById('table_name').addEventListener('change', function() {
+            var selectedTable = this.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/update_inventory_table?table_name=' + selectedTable, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {    
+                    document.getElementById('inventory_table_body').innerHTML = xhr.responseText;
+                } else {
+                    console.error('Fehler beim Laden der Daten: ' + xhr.status);
+                }
+            };
+            xhr.send(); 
+            
+            // Aktualisiere den ausgewählten Tabellennamen im Bereich <div id="selected_table_name">
+            var selectedTableToShow = selectedTable.split('_').slice(2).join('_').replace(/_/g, ' ');
+            document.getElementById('selected_table_name').innerHTML = "<p>" + selectedTableToShow + "</p>";
+        });  
+    </script>
+    
+    
+    <!-- <script>
+        document.getElementById('table_name').addEventListener('change', function() {
+            var selectedTable = this.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/view_inventory.html?table_name=' + selectedTable, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+                    document.getElementById("inventory_container").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        });  
+    </script> -->
+    
+    
+    <!--if(xhr.status == 200) {
+                    var inventory = xhr.responseText;
+                    var xhr2 = new XMLHttpRequest();
+                    xhr2.open('GET', 'view_inventory.html?table_name=' + selectedTable + '&inventory=' + inventory, true);
+                    xhr2.onload = function(){
+                        if(xhr2.status == 200) {
+                            var inventoryData = xhr2.responseText;
+                            document.getElementById('inventory').innerHTML = inventoryData;
+                        }
+                    };
+                    xhr2.send();
+                }-->
+    
+    
+    <!--/*xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            var selected_table_name = document.getElementById('table_name');
+            selected_table_name.value = xhr.responseText;
+        }
+    };*/-->
+    <footer>
+        <!-- Hier kommt der Footer, falls benötigt -->
+    </footer>
+</body>
+</html>

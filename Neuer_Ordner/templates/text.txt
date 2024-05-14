@@ -1,0 +1,97 @@
+    //hat so nicht ganz funktioniert, aber es wurden die richtifen Werte von Inventory weiter gegeben
+
+
+@app.route('/view_inventory.html', methods=['GET','POST'])
+def view_inventory():
+    # Holen Sie sich die Liste der Tabellennamen
+    table_names_list = get_table_names_list()
+    # Wenn eine bestimmte Tabelle ausgewählt wurde
+    selected_table_name = request.args.get('table_name')
+    
+    if selected_table_name:
+        inventory = get_inventory(selected_table_name)
+        
+        
+    else:
+        # Wenn keine bestimmte Tabelle ausgewählt wurde, den Lagerbestand für alle Tabellen abrufen
+        selected_table_name = None  # Setze die ausgewählte Tabelle auf None
+        inventory = {}
+    
+    
+    print("Selected table name:", selected_table_name)  # Debugging-Ausgabe
+    print("Inventory for selected table:", inventory)  # Debugging-Ausgabe
+    print("Table names list:", table_names_list)  # Debugging-Ausgabe    
+    
+    return render_template('view_inventory.html', table_names_list=table_names_list, inventory=inventory, selected_table_name=selected_table_name)
+
+
+
+
+<main>
+        <main>
+            <label for="table_name">Kategorie:</label>
+            <select id="table_name" name="table_name" class="dropdown-menu" onchange="this.form.submit()">
+                <option value="">-- Kategorie wählen --</option>
+                {% for table_name in table_names_list %}
+                    {% set display_name = table_name.split('_')[2:]|join('_')|replace('_', ' ') %}
+                    <option value="{{ table_name }}" {% if selected_table_name == table_name %}selected{% endif %}>{{ display_name }}</option>
+                {% endfor %}
+            </select>
+           
+            {% if selected_table_name %}
+            <div onchange="this.form.submit">
+                <h2>{{ selected_table_name.split('_')[2:]|join('_')|replace('_', ' ') }}</h2>
+            </div>
+            
+            {% endif %}
+            
+            
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Produktbild</th>
+                            <th>Name</th>
+                            <th>Größe</th>
+                            <th>Menge</th>
+                            <th>Preis</th>                    
+                            <th>WbW</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory_table_body">
+                        {% for item in inventory %}
+                            <tr>
+                                <td>{{ item[0] }}</td>
+                                <td>---</td>
+                                <td>{{ item[1] }}</td>
+                                <td>{{ item[4] }}</td>
+                                <td>{{ item[2] }}</td>
+                                <td>{{ item[3] }}</td>                            
+                                <td>{{ item[5] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            
+    </main>
+
+  
+    <script>
+        document.getElementById('table_name').addEventListener('change', function() {
+            var selectedTable = this.value;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'view_inventory.html?table_name=' + selectedTable, true);    
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('inventory_table_body').innerHTML = xhr.responseText;
+                } else {
+                    console.error('Fehler beim Laden der Daten: ' + xhr.status);
+                }
+            };
+            xhr.send(); 
+        });  
+        
+    </script>
+
+
+
